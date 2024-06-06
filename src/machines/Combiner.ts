@@ -1,16 +1,19 @@
-import { Machine } from './Machine';
-import { Facing, FactoryFloor } from '../FactoryFloor';
 import { pluck } from '@basementuniverse/utils';
+import { FactoryFloor } from '../FactoryFloor';
 import { Item } from '../Item';
+import { Facing } from '../types';
+import { Machine } from './Machine';
 
 export class Combiner extends Machine {
   public inputs: Facing[] = ['left', 'right', 'back'];
   public combiningItemA: Item | null = null;
   public combiningItemB: Item | null = null;
 
-  public constructor(data: Partial<Combiner> & {
-    inputs?: Facing[];
-  } = {}) {
+  public constructor(
+    data: Partial<Combiner> & {
+      inputs?: Facing[];
+    } = {}
+  ) {
     super(pluck(data, 'position', 'direction'));
 
     if (data.inputs) {
@@ -58,9 +61,9 @@ export class Combiner extends Machine {
     return cloned;
   }
 
-  public render(): string {
-    const combiningItemA = this.combiningItemA?.render() || '-';
-    const combiningItemB = this.combiningItemB?.render() || '-';
-    return `CMB${super.render()}(${combiningItemA}+${combiningItemB})`;
+  public debugOutput(): string {
+    const combiningItemA = this.combiningItemA?.debugOutput() || '-';
+    const combiningItemB = this.combiningItemB?.debugOutput() || '-';
+    return `CMB${super.debugOutput()}(${combiningItemA}+${combiningItemB})`;
   }
 }

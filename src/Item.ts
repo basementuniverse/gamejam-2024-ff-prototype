@@ -29,7 +29,7 @@ export class Item {
     return tags.every(tag => this.tags.includes(tag));
   }
 
-  render(): string {
+  debugOutput(): string {
     return `I(${this.tags.join(' ')})`;
   }
 }

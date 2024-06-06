@@ -30,7 +30,7 @@ export class Dispenser extends Machine {
     return new Dispenser(this);
   }
 
-  public render(): string {
-    return `DSP${super.render()}`;
+  public debugOutput(): string {
+    return `DSP${super.debugOutput()}`;
   }
 }

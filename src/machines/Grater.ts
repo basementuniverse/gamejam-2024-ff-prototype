@@ -53,8 +53,8 @@ export class Grater extends Machine {
     return cloned;
   }
 
-  public render(): string {
-    const gratingItem = this.gratingItem?.render() || '-';
-    return `GRT${super.render()}(${gratingItem}:${this.gratingProgress}/${this.gratingTime})`;
+  public debugOutput(): string {
+    const gratingItem = this.gratingItem?.debugOutput() || '-';
+    return `GRT${super.debugOutput()}(${gratingItem}:${this.gratingProgress}/${this.gratingTime})`;
   }
 }

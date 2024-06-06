@@ -59,8 +59,8 @@ export class Blender extends Machine {
     return cloned;
   }
 
-  public render(): string {
-    const blendingItem = this.blendingItem?.render() || '-';
-    return `BLN${super.render()}(${blendingItem}:${this.blendingProgress}/${this.blendingTime})`;
+  public debugOutput(): string {
+    const blendingItem = this.blendingItem?.debugOutput() || '-';
+    return `BLN${super.debugOutput()}(${blendingItem}:${this.blendingProgress}/${this.blendingTime})`;
   }
 }

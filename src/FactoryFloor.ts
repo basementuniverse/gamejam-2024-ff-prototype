@@ -1,22 +1,24 @@
-import { vec } from '@basementuniverse/vec';
-import { Machine } from './machines/Machine';
-import { Dispenser } from './machines/Dispenser';
-import { Conveyor } from './machines/Conveyor';
-import { ServingCounter } from './machines/ServingCounter';
-import { Item } from './Item';
-import { GameScene } from './GameScene';
-import { Blender } from './machines/Blender';
 import { times } from '@basementuniverse/utils';
-import { Grater } from './machines/Grater';
-import { Roller } from './machines/Roller';
-import { Slicer } from './machines/Slicer';
+import { vec } from '@basementuniverse/vec';
+import { GameScene } from './GameScene';
+import { Item } from './Item';
+import { Blender } from './machines/Blender';
 import { Combiner } from './machines/Combiner';
+import { Conveyor } from './machines/Conveyor';
+import { Dispenser } from './machines/Dispenser';
+import { Grater } from './machines/Grater';
+import { Machine } from './machines/Machine';
 import { Oven } from './machines/Oven';
-
-export type Direction = 'left' | 'right' | 'up' | 'down';
-export type Facing = 'front' | 'back' | 'left' | 'right';
+import { Roller } from './machines/Roller';
+import { ServingCounter } from './machines/ServingCounter';
+import { Slicer } from './machines/Slicer';
+import { Direction, Facing } from './types';
+import Camera from '@basementuniverse/camera';
 
 export class FactoryFloor {
+  private static readonly TILE_SIZE = 80;
+  private static readonly TILE_BORDER = 2;
+
   public width: number = 10;
   public height: number = 10;
 
@@ -31,18 +33,21 @@ export class FactoryFloor {
     [facing in Facing]: (direction: Direction) => vec;
   } = {
     front: (direction: Direction) => FactoryFloor.DIRECTIONS[direction],
-    back: (direction: Direction) => vec(
-      FactoryFloor.DIRECTIONS[direction].x * -1,
-      FactoryFloor.DIRECTIONS[direction].y * -1
-    ),
-    left: (direction: Direction) => vec(
-      FactoryFloor.DIRECTIONS[direction].y,
-      FactoryFloor.DIRECTIONS[direction].x * -1
-    ),
-    right: (direction: Direction) => vec(
-      FactoryFloor.DIRECTIONS[direction].y * -1,
-      FactoryFloor.DIRECTIONS[direction].x
-    ),
+    back: (direction: Direction) =>
+      vec(
+        FactoryFloor.DIRECTIONS[direction].x * -1,
+        FactoryFloor.DIRECTIONS[direction].y * -1
+      ),
+    left: (direction: Direction) =>
+      vec(
+        FactoryFloor.DIRECTIONS[direction].y,
+        FactoryFloor.DIRECTIONS[direction].x * -1
+      ),
+    right: (direction: Direction) =>
+      vec(
+        FactoryFloor.DIRECTIONS[direction].y * -1,
+        FactoryFloor.DIRECTIONS[direction].x
+      ),
   };
 
   public state: Machine[] = [];
@@ -70,10 +75,26 @@ export class FactoryFloor {
     // ];
 
     const testFactory: Machine[] = [
-      new Dispenser({ position: vec(1, 0), direction: 'down', item: new Item(['cheese']) }),
-      new Dispenser({ position: vec(3, 0), direction: 'down', item: new Item(['tomato']) }),
-      new Dispenser({ position: vec(5, 0), direction: 'down', item: new Item(['dough']) }),
-      new Dispenser({ position: vec(7, 0), direction: 'down', item: new Item(['salami']) }),
+      new Dispenser({
+        position: vec(1, 0),
+        direction: 'down',
+        item: new Item(['cheese']),
+      }),
+      new Dispenser({
+        position: vec(3, 0),
+        direction: 'down',
+        item: new Item(['tomato']),
+      }),
+      new Dispenser({
+        position: vec(5, 0),
+        direction: 'down',
+        item: new Item(['dough']),
+      }),
+      new Dispenser({
+        position: vec(7, 0),
+        direction: 'down',
+        item: new Item(['salami']),
+      }),
       new Conveyor({ position: vec(1, 1), output: 'down' }),
       new Conveyor({ position: vec(3, 1), output: 'down' }),
       new Conveyor({ position: vec(5, 1), output: 'down' }),
@@ -86,11 +107,23 @@ export class FactoryFloor {
       new Conveyor({ position: vec(3, 3), output: 'down' }),
       new Conveyor({ position: vec(5, 3), output: 'down' }),
       new Conveyor({ position: vec(7, 3), output: 'down' }),
-      new Combiner({ position: vec(1, 4), direction: 'down', inputs: ['back', 'left'] }),
+      new Combiner({
+        position: vec(1, 4),
+        direction: 'down',
+        inputs: ['back', 'left'],
+      }),
       new Conveyor({ position: vec(2, 4), output: 'left' }),
-      new Combiner({ position: vec(3, 4), direction: 'left', inputs: ['back', 'right'] }),
+      new Combiner({
+        position: vec(3, 4),
+        direction: 'left',
+        inputs: ['back', 'right'],
+      }),
       new Conveyor({ position: vec(4, 4), output: 'left' }),
-      new Combiner({ position: vec(5, 4), direction: 'left', inputs: ['back', 'right'] }),
+      new Combiner({
+        position: vec(5, 4),
+        direction: 'left',
+        inputs: ['back', 'right'],
+      }),
       new Conveyor({ position: vec(6, 4), output: 'left' }),
       new Conveyor({ position: vec(7, 4), output: 'left', input: 'right' }),
       new Conveyor({ position: vec(1, 5), output: 'down' }),
@@ -106,7 +139,7 @@ export class FactoryFloor {
           'salami_sliced_cooked',
         ]),
       }),
-    ]
+    ];
 
     this.state = testFactory;
   }
@@ -146,13 +179,59 @@ export class FactoryFloor {
     this.state = this.newState;
   }
 
-  public render() {
+  public draw(context: CanvasRenderingContext2D, camera: Camera) {
+    const floorSize = vec.mul(
+      vec(this.width, this.height),
+      FactoryFloor.TILE_SIZE
+    );
+    const start = vec.sub(
+      camera.position,
+      vec.mul(floorSize, 0.5)
+    );
+
+    context.save();
+
+    for (let y = 0; y < this.height; y++) {
+      for (let x = 0; x < this.width; x++) {
+        const p = vec.add(
+          start,
+          vec(x * FactoryFloor.TILE_SIZE, y * FactoryFloor.TILE_SIZE)
+        );
+        const s = vec(FactoryFloor.TILE_SIZE, FactoryFloor.TILE_SIZE);
+
+        this.drawEmptyTile(context, p, s);
+      }
+    }
+
+    context.restore();
+
+    // Draw machines
+
+    // ...
+  }
+
+  public drawEmptyTile(context: CanvasRenderingContext2D, p: vec, s: vec) {
+    context.save();
+
+    context.fillStyle = '#ffffff20';
+    context.fillRect(
+      p.x + FactoryFloor.TILE_BORDER,
+      p.y + FactoryFloor.TILE_BORDER,
+      s.x - FactoryFloor.TILE_BORDER * 2,
+      s.y - FactoryFloor.TILE_BORDER * 2
+    );
+
+    context.restore();
+  }
+
+  public debugOutput() {
     console.table(
       times(
-        y => times(
-          x => this.findMachine(vec(x, y))?.render() || '-',
-          this.width
-        ),
+        y =>
+          times(
+            x => this.findMachine(vec(x, y))?.debugOutput() || '-',
+            this.width
+          ),
         this.height
       )
     );

@@ -53,8 +53,8 @@ export class Oven extends Machine {
     return cloned;
   }
 
-  public render(): string {
-    const cookingItem = this.cookingItem?.render() || '-';
-    return `OVN${super.render()}(${cookingItem}:${this.cookingProgress}/${this.cookingTime})`;
+  public debugOutput(): string {
+    const cookingItem = this.cookingItem?.debugOutput() || '-';
+    return `OVN${super.debugOutput()}(${cookingItem}:${this.cookingProgress}/${this.cookingTime})`;
   }
 }

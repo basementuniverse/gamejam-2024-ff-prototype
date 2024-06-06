@@ -53,8 +53,8 @@ export class Roller extends Machine {
     return cloned;
   }
 
-  public render(): string {
-    const rollingItem = this.rollingItem?.render() || '-';
-    return `ROL${super.render()}(${rollingItem}:${this.rollingProgress}/${this.rollingTime})`;
+  public debugOutput(): string {
+    const rollingItem = this.rollingItem?.debugOutput() || '-';
+    return `ROL${super.debugOutput()}(${rollingItem}:${this.rollingProgress}/${this.rollingTime})`;
   }
 }

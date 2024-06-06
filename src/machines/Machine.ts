@@ -1,6 +1,7 @@
 import { vec } from '@basementuniverse/vec';
-import { Direction, Facing, FactoryFloor } from '../FactoryFloor';
+import { FactoryFloor } from '../FactoryFloor';
 import { Item } from '../Item';
+import { Direction, Facing } from '../types';
 
 export abstract class Machine {
   public position: vec = vec(0, 0);
@@ -23,8 +24,8 @@ export abstract class Machine {
 
     this.outputItem = null;
 
-    const found = factory.newState.find(
-      machine => vec.eq(machine.position, this.position)
+    const found = factory.newState.find(machine =>
+      vec.eq(machine.position, this.position)
     );
     if (found) {
       found.outputItem = null;
@@ -33,7 +34,9 @@ export abstract class Machine {
     return item;
   }
 
-  public render(): string {
-    return `(${this.status}|${this.outputItem ? this.outputItem.render() : '-'})`;
+  public debugOutput(): string {
+    return `(${this.status}|${
+      this.outputItem ? this.outputItem.debugOutput() : '-'
+    })`;
   }
 }

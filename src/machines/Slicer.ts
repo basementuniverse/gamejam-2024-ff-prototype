@@ -1,7 +1,7 @@
-import { Machine } from './Machine';
-import { FactoryFloor } from '../FactoryFloor';
 import { pluck } from '@basementuniverse/utils';
+import { FactoryFloor } from '../FactoryFloor';
 import { Item } from '../Item';
+import { Machine } from './Machine';
 
 export class Slicer extends Machine {
   public slicingTime = 1;
@@ -53,8 +53,10 @@ export class Slicer extends Machine {
     return cloned;
   }
 
-  public render(): string {
-    const slicingItem = this.slicingItem?.render() || '-';
-    return `OVN${super.render()}(${slicingItem}:${this.slicingProgress}/${this.slicingTime})`;
+  public debugOutput(): string {
+    const slicingItem = this.slicingItem?.debugOutput() || '-';
+    return `SLC${super.debugOutput()}(${slicingItem}:${this.slicingProgress}/${
+      this.slicingTime
+    })`;
   }
 }

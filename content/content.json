@@ -3,5 +3,10 @@
     "name": "spknc",
     "type": "image",
     "args": ["content/space-pirate-keyboard-ninja-cat.png"]
+  },
+  {
+    "name": "ff",
+    "type": "image",
+    "args": ["content/food-factory.png"]
   }
 ]

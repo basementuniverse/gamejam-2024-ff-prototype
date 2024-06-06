@@ -1,10 +1,13 @@
-import Game from './Game';
-import SceneManager, { Scene, SceneTransitionState } from '@basementuniverse/scene-manager';
-import { lerp } from '@basementuniverse/utils';
-import InputManager from '@basementuniverse/input-manager';
-import { GameScene } from './GameScene';
 import ContentManager from '@basementuniverse/content-manager';
+import InputManager from '@basementuniverse/input-manager';
+import SceneManager, {
+  Scene,
+  SceneTransitionState,
+} from '@basementuniverse/scene-manager';
+import { lerp } from '@basementuniverse/utils';
 import { vec } from '@basementuniverse/vec';
+import Game from './Game';
+import { GameScene } from './GameScene';
 
 export class MenuScene extends Scene {
   private static readonly TRANSITION_TIME: number = 1;
@@ -29,20 +32,21 @@ export class MenuScene extends Scene {
       context.globalAlpha = this.transitionAmount;
     }
 
-    const teamLogo = ContentManager.get<HTMLImageElement>('spknc');
-    if (teamLogo) {
+    const menuImage = ContentManager.get<HTMLImageElement>('ff');
+    if (menuImage) {
       const center = vec.mul(Game.screen, 0.5);
-      const logoSize = vec.mul(vec(teamLogo.width, teamLogo.height), 0.4);
+      const largestDimension = Math.max(Game.screen.x, Game.screen.y);
+
       context.drawImage(
-        teamLogo,
-        center.x - logoSize.x / 2,
-        center.y - logoSize.y / 2,
-        logoSize.x,
-        logoSize.y
+        menuImage,
+        center.x - largestDimension / 2,
+        center.y - largestDimension / 2,
+        largestDimension,
+        largestDimension
       );
     }
 
-    const y = lerp(-50, Game.screen.y * 0.8, this.transitionAmount);
+    const y = lerp(-50, Game.screen.y / 2, this.transitionAmount);
     context.fillStyle = 'white';
     context.font = '24px monospace';
     context.textAlign = 'center';

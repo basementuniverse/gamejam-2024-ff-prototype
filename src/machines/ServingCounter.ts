@@ -1,4 +1,3 @@
-import { vec } from '@basementuniverse/vec';
 import { Item } from '../Item';
 import { Machine } from './Machine';
 import { pluck } from '@basementuniverse/utils';
@@ -63,7 +62,7 @@ export class ServingCounter extends Machine {
     // compare expectedItem to outputItem and apply score based on similarity
   }
 
-  public render(): string {
-    return `SVC${super.render()}`;
+  public debugOutput(): string {
+    return `SVC${super.debugOutput()}`;
   }
 }

@@ -1,13 +1,16 @@
 import { vec } from '@basementuniverse/vec';
+import { FactoryFloor } from '../FactoryFloor';
+import { Direction, Facing } from '../types';
 import { Machine } from './Machine';
-import { Direction, Facing, FactoryFloor } from '../FactoryFloor';
 
 export class Conveyor extends Machine {
-  public constructor(data: {
-    position?: vec;
-    input?: Facing;
-    output?: Direction;
-  } = {}) {
+  public constructor(
+    data: {
+      position?: vec;
+      input?: Facing;
+      output?: Direction;
+    } = {}
+  ) {
     if (data.input === 'front') {
       throw new Error('conveyor input cannot be facing front');
     }
@@ -46,7 +49,7 @@ export class Conveyor extends Machine {
     return cloned;
   }
 
-  public render(): string {
-    return `CNV${super.render()}`;
+  public debugOutput(): string {
+    return `CNV${super.debugOutput()}`;
   }
 }
