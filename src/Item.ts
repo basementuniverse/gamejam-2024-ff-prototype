@@ -9,6 +9,26 @@ export class Item {
     return new Item([...item.tags]);
   }
 
+  public addTags(...tags: string[]) {
+    this.tags = [...this.tags, ...tags];
+  }
+
+  public removeTags(...tags: string[]) {
+    this.tags = this.tags.filter(tag => !tags.includes(tag));
+  }
+
+  public mergeTags(tagPostfix: string) {
+    this.tags = this.tags.map(tag => `${tag}_${tagPostfix}`);
+  }
+
+  public hasSomeTags(...tags: string[]): boolean {
+    return tags.some(tag => this.tags.includes(tag));
+  }
+
+  public hasAllTags(...tags: string[]): boolean {
+    return tags.every(tag => this.tags.includes(tag));
+  }
+
   render(): string {
     return `I(${this.tags.join(' ')})`;
   }

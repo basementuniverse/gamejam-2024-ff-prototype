@@ -1,23 +1,39 @@
 import { vec } from '@basementuniverse/vec';
-import { Direction, Facing, GameScene } from '../GameScene';
+import { Direction, Facing, FactoryFloor } from '../FactoryFloor';
 import { Item } from '../Item';
 
-export class Machine {
+export abstract class Machine {
+  public position: vec = vec(0, 0);
   public direction: Direction = 'right';
   public input: Facing = 'back';
   public output: Facing = 'front';
-  public internalItem: Item | null = null;
   public outputItem: Item | null = null;
+  public status: 'idle' | 'working' | 'broken' = 'idle';
 
-  constructor(direction: Direction) {
-    this.direction = direction;
+  public constructor(data: Partial<Machine> = {}) {
+    Object.assign(this, data);
   }
 
-  tick(game: GameScene, p: vec) {}
+  public abstract tick(factory: FactoryFloor, ...args: any[]): Machine;
 
-  render(): string {
-    const i = this.internalItem ? this.internalItem.render() : '-';
-    const o = this.outputItem ? this.outputItem.render() : '-';
-    return `(i:${i},o:${o})`;
+  public abstract clone(): Machine;
+
+  public take(factory: FactoryFloor): Item | null {
+    const item = this.outputItem;
+
+    this.outputItem = null;
+
+    const found = factory.newState.find(
+      machine => vec.eq(machine.position, this.position)
+    );
+    if (found) {
+      found.outputItem = null;
+    }
+
+    return item;
+  }
+
+  public render(): string {
+    return `(${this.status}|${this.outputItem ? this.outputItem.render() : '-'})`;
   }
 }

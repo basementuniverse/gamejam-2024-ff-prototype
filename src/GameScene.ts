@@ -7,42 +7,14 @@ import SceneManager, {
 import InputManager from '@basementuniverse/input-manager';
 import Camera from '@basementuniverse/camera';
 import { FactoryFloor } from './FactoryFloor';
-
-export type Direction = 'left' | 'right' | 'up' | 'down';
-export type Facing = 'front' | 'back' | 'left' | 'right';
+import { Customer } from './Customer';
 
 export class GameScene extends Scene {
   private static readonly TRANSITION_TIME: number = 1;
 
-  private static readonly FACTORY_FLOOR_WIDTH = 10;
-  private static readonly FACTORY_FLOOR_HEIGHT = 10;
-
-  private static readonly DIRECTIONS: { [direction in Direction]: vec } = {
-    left: vec(-1, 0),
-    right: vec(1, 0),
-    up: vec(0, -1),
-    down: vec(0, 1),
-  };
-
-  private static readonly FACINGS: {
-    [facing in Facing]: (direction: Direction) => vec;
-  } = {
-    front: (direction: Direction) => GameScene.DIRECTIONS[direction],
-    back: (direction: Direction) => vec(
-      GameScene.DIRECTIONS[direction].x * -1,
-      GameScene.DIRECTIONS[direction].y * -1
-    ),
-    left: (direction: Direction) => vec(
-      GameScene.DIRECTIONS[direction].y,
-      GameScene.DIRECTIONS[direction].x * -1
-    ),
-    right: (direction: Direction) => vec(
-      GameScene.DIRECTIONS[direction].y * -1,
-      GameScene.DIRECTIONS[direction].x
-    ),
-  };
-
   public factoryFloor: FactoryFloor;
+  public customers: Customer[] = [];
+
   private camera: Camera;
 
   public constructor() {
@@ -53,10 +25,7 @@ export class GameScene extends Scene {
 
   public initialise() {
     this.camera = new Camera(vec());
-    this.factoryFloor = new FactoryFloor(vec(
-      GameScene.FACTORY_FLOOR_WIDTH,
-      GameScene.FACTORY_FLOOR_HEIGHT
-    ));
+    this.factoryFloor = new FactoryFloor();
     this.factoryFloor.initialise();
   }
 
@@ -71,14 +40,14 @@ export class GameScene extends Scene {
       this.factoryFloor.render();
     }
 
-    if (InputManager.keyPressed('C')) {
+    if (InputManager.keyPressed('KeyX')) {
       this.factoryFloor.initialise();
       this.factoryFloor.render();
     }
-  }
 
-  public adjustDirection(direction: Direction, facing: Facing): vec {
-    return GameScene.FACINGS[facing](direction);
+    if (InputManager.keyPressed('KeyC')) {
+      this.customers.push(new Customer());
+    }
   }
 
   public draw(context: CanvasRenderingContext2D) {

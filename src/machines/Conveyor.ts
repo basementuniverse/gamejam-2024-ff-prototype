@@ -1,36 +1,49 @@
 import { vec } from '@basementuniverse/vec';
-import { Direction, Facing, GameScene } from '../GameScene';
 import { Machine } from './Machine';
+import { Direction, Facing, FactoryFloor } from '../FactoryFloor';
 
 export class Conveyor extends Machine {
-  constructor(outputDirection: Direction, inputFacing: Facing = 'back') {
-    if (inputFacing === 'front') {
-      throw new Error('conveyor input cannot be facing front (that is the output)');
+  public constructor(data: {
+    position?: vec;
+    input?: Facing;
+    output?: Direction;
+  } = {}) {
+    if (data.input === 'front') {
+      throw new Error('conveyor input cannot be facing front');
     }
 
-    super(outputDirection);
-    this.input = inputFacing;
+    super({
+      position: data.position,
+      direction: data.output || 'right',
+      input: data.input || 'back',
+    });
   }
 
-  public tick(game: GameScene, p: vec) {
-    if (this.outputItem) {
-      return;
+  public tick(factory: FactoryFloor): Conveyor {
+    const cloned = this.clone();
+
+    const inputMachine = factory.findAdjacentMachine(
+      cloned.position,
+      factory.adjustDirection(cloned.direction, cloned.input)
+    );
+
+    if (inputMachine && inputMachine.outputItem && !cloned.outputItem) {
+      cloned.outputItem = inputMachine.take(factory);
     }
 
-    if (this.internalItem) {
-      this.outputItem = this.internalItem;
-      this.internalItem = null;
-    } else {
-      const inputMachine = game.factoryFloor.findAdjacentMachine(
-        p,
-        game.adjustDirection(this.direction, this.input)
-      );
+    return cloned;
+  }
 
-      if (inputMachine && inputMachine.outputItem) {
-        this.internalItem = inputMachine.outputItem;
-        inputMachine.outputItem = null;
-      }
-    }
+  public clone(): Conveyor {
+    const cloned = new Conveyor({
+      position: this.position,
+      input: this.input,
+      output: this.direction,
+    });
+
+    cloned.outputItem = this.outputItem;
+
+    return cloned;
   }
 
   public render(): string {

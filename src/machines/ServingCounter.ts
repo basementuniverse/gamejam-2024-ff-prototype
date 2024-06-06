@@ -1,32 +1,45 @@
 import { vec } from '@basementuniverse/vec';
-import { Direction, GameScene } from '../GameScene';
 import { Item } from '../Item';
 import { Machine } from './Machine';
+import { pluck } from '@basementuniverse/utils';
+import { FactoryFloor } from '../FactoryFloor';
 
 export class ServingCounter extends Machine {
   public expectedItem: Item | null = null;
 
-  constructor(direction: Direction, expectedItem: Item) {
-    super(direction);
-    this.expectedItem = expectedItem;
+  constructor(data: Partial<ServingCounter> = {}) {
+    super(pluck(data, 'position', 'direction'));
+    this.expectedItem = data.expectedItem || null;
   }
 
-  public tick(game: GameScene, p: vec) {
-    const inputMachine = game.factoryFloor.findAdjacentMachine(
-      p,
-      game.adjustDirection(this.direction, this.input)
+  public tick(factory: FactoryFloor): ServingCounter {
+    const cloned = this.clone();
+
+    const inputMachine = factory.findAdjacentMachine(
+      cloned.position,
+      factory.adjustDirection(this.direction, this.input)
     );
 
-    if (inputMachine && inputMachine.outputItem) {
-      this.internalItem = inputMachine.outputItem;
-      inputMachine.outputItem = null;
+    if (inputMachine && inputMachine.outputItem && !cloned.outputItem) {
+      cloned.outputItem = inputMachine.take(factory);
     }
 
-    if (this.internalItem) {
-      console.log('internal: ', this.internalItem);
-      console.log('expected: ', this.expectedItem);
-      console.log('valid: ', this.isValidOrder() ? 'yes' : 'no');
+    if (cloned.outputItem) {
+      console.log('item: ', cloned.outputItem);
+      console.log('expected: ', cloned.expectedItem);
+      console.log('valid: ', cloned.isValidOrder() ? 'yes' : 'no');
     }
+
+    return cloned;
+  }
+
+  public clone(): ServingCounter {
+    const cloned = new ServingCounter(this);
+
+    cloned.expectedItem = this.expectedItem;
+    cloned.outputItem = this.outputItem;
+
+    return cloned;
   }
 
   private isValidOrder() {
@@ -34,17 +47,20 @@ export class ServingCounter extends Machine {
       return false;
     }
 
-    if (!this.internalItem) {
+    if (!this.outputItem) {
       return false;
     }
 
-    return this.expectedItem.tags.every(
-      tag => this.internalItem!.tags.includes(tag)
+    return (
+      this.expectedItem.tags.length === this.outputItem.tags.length &&
+      this.expectedItem.tags.every(
+        tag => this.outputItem!.tags.includes(tag)
+      )
     );
   }
 
   private calculateScore() {
-    // compare expectedItem to internalItem and apply score based on similarity
+    // compare expectedItem to outputItem and apply score based on similarity
   }
 
   public render(): string {
