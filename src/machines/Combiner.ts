@@ -3,6 +3,7 @@ import { FactoryFloor } from '../FactoryFloor';
 import { Item } from '../Item';
 import { Facing } from '../types';
 import { Machine } from './Machine';
+import ContentManager from '@basementuniverse/content-manager';
 
 export class Combiner extends Machine {
   public inputs: Facing[] = ['left', 'right', 'back'];
@@ -51,6 +52,13 @@ export class Combiner extends Machine {
     return cloned;
   }
 
+  public reset(): Combiner {
+    return new Combiner({
+      ...this,
+      inputs: this.inputs,
+    });
+  }
+
   public clone(): Combiner {
     const cloned = new Combiner(this);
 
@@ -59,6 +67,38 @@ export class Combiner extends Machine {
     cloned.combiningItemB = this.combiningItemB;
 
     return cloned;
+  }
+
+  public update(dt: number) {}
+
+  public draw(context: CanvasRenderingContext2D, size: number) {
+    context.save();
+    context.translate(this.position.x * size, this.position.y * size);
+
+    let image: HTMLImageElement | undefined = undefined;
+    switch (this.direction) {
+      case 'left':
+        image = ContentManager.get<HTMLImageElement>('combiner-left');
+        break;
+
+      case 'right':
+        image = ContentManager.get<HTMLImageElement>('combiner-right');
+        break;
+
+      case 'up':
+        image = ContentManager.get<HTMLImageElement>('combiner-up');
+        break;
+
+      case 'down':
+        image = ContentManager.get<HTMLImageElement>('combiner-down');
+        break;
+    }
+
+    if (image) {
+      context.drawImage(image, 0, 0, size, size);
+    }
+
+    context.restore();
   }
 
   public debugOutput(): string {

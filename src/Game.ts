@@ -1,8 +1,8 @@
-import { vec } from '@basementuniverse/vec';
 import ContentManager from '@basementuniverse/content-manager';
 import Debug from '@basementuniverse/debug';
 import InputManager from '@basementuniverse/input-manager';
 import SceneManager from '@basementuniverse/scene-manager';
+import { vec } from '@basementuniverse/vec';
 import { LoadingScene } from './LoadingScene';
 import * as config from './config.json';
 import * as constants from './constants';
@@ -53,8 +53,8 @@ export default class Game {
     // Initialise subsystems
     ContentManager.initialise({
       simulateSlowLoading: constants.DEBUG,
-      slowLoadingTimeMin: 100,
-      slowLoadingTimeMax: 500,
+      slowLoadingTimeMin: 10,
+      slowLoadingTimeMax: 100,
     });
     Debug.initialise();
     InputManager.initialise();
@@ -94,7 +94,7 @@ export default class Game {
     Game.screen = vec(this.canvas.width, this.canvas.height);
 
     SceneManager.update(dt);
-    InputManager.update();  // Input manager should be updated last
+    InputManager.update(); // Input manager should be updated last
   }
 
   draw() {

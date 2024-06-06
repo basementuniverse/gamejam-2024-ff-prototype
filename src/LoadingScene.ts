@@ -6,6 +6,7 @@ import SceneManager, {
 import { vec } from '@basementuniverse/vec';
 import * as content from '../content/content.json';
 import Game from './Game';
+import { GameScene } from './GameScene';
 import { IntroScene } from './IntroScene';
 import * as constants from './constants';
 
@@ -52,7 +53,12 @@ export class LoadingScene extends Scene {
 
     if (this.cooldownTime <= 0) {
       SceneManager.pop();
-      SceneManager.push(new IntroScene());
+
+      if (constants.SKIP_MENU) {
+        SceneManager.push(new GameScene());
+      } else {
+        SceneManager.push(new IntroScene());
+      }
     }
   }
 

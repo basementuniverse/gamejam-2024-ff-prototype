@@ -1,3 +1,4 @@
+import Camera from '@basementuniverse/camera';
 import { vec } from '@basementuniverse/vec';
 import { FactoryFloor } from '../FactoryFloor';
 import { Item } from '../Item';
@@ -17,6 +18,8 @@ export abstract class Machine {
 
   public abstract tick(factory: FactoryFloor, ...args: any[]): Machine;
 
+  public abstract reset(): Machine;
+
   public abstract clone(): Machine;
 
   public take(factory: FactoryFloor): Item | null {
@@ -33,6 +36,13 @@ export abstract class Machine {
 
     return item;
   }
+
+  public abstract draw(
+    context: CanvasRenderingContext2D,
+    size: number
+  ): void;
+
+  public abstract update(dt: number): void;
 
   public debugOutput(): string {
     return `(${this.status}|${

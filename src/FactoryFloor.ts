@@ -1,6 +1,8 @@
+import Camera from '@basementuniverse/camera';
+import InputManager from '@basementuniverse/input-manager';
 import { times } from '@basementuniverse/utils';
 import { vec } from '@basementuniverse/vec';
-import { GameScene } from './GameScene';
+import { GameScene, ToolMode } from './GameScene';
 import { Item } from './Item';
 import { Blender } from './machines/Blender';
 import { Combiner } from './machines/Combiner';
@@ -13,7 +15,6 @@ import { Roller } from './machines/Roller';
 import { ServingCounter } from './machines/ServingCounter';
 import { Slicer } from './machines/Slicer';
 import { Direction, Facing } from './types';
-import Camera from '@basementuniverse/camera';
 
 export class FactoryFloor {
   private static readonly TILE_SIZE = 80;
@@ -52,6 +53,7 @@ export class FactoryFloor {
 
   public state: Machine[] = [];
   public newState: Machine[] = [];
+  public tickCount = 0;
 
   constructor(size?: vec) {
     if (size) {
@@ -144,6 +146,14 @@ export class FactoryFloor {
     this.state = testFactory;
   }
 
+  public addMachine(p: vec) {
+    //
+  }
+
+  public removeMachine(p: vec) {
+    //
+  }
+
   public findAdjacentMachine(p: vec, direction: vec): Machine | null {
     const adjacentPosition = vec.add(p, direction);
 
@@ -159,6 +169,7 @@ export class FactoryFloor {
   }
 
   public tick(game: GameScene) {
+    this.tickCount++;
     this.newState = [];
 
     // temp
@@ -179,35 +190,104 @@ export class FactoryFloor {
     this.state = this.newState;
   }
 
+  public reset() {
+    this.state = this.state.map(machine => machine.reset());
+  }
+
+  public update(dt: number, camera: Camera, toolMode: ToolMode) {
+    for (const machine of this.state) {
+      machine.update(dt);
+    }
+
+    const floorSize = vec.mul(
+      vec(this.width, this.height),
+      FactoryFloor.TILE_SIZE
+    );
+    const start = vec.sub(camera.position, vec.mul(floorSize, 0.5));
+
+    if (InputManager.mousePressed()) {
+      const mouse = camera.positionToWorld(InputManager.mousePosition);
+      const p = vec(
+        Math.floor((mouse.x - start.x) / FactoryFloor.TILE_SIZE),
+        Math.floor((mouse.y - start.y) / FactoryFloor.TILE_SIZE)
+      );
+
+      if (p.x >= 0 && p.x < this.width && p.y >= 0 && p.y < this.height) {
+        switch (toolMode) {
+          case 'select':
+            break;
+
+          case 'rotate':
+            // TODO
+            break;
+
+          case 'delete':
+            // TODO
+            break;
+
+          case 'create-conveyor':
+            // TODO
+            break;
+
+          case 'create-combiner':
+            // TODO
+            break;
+
+          case 'create-oven':
+            // TODO
+            break;
+
+          case 'create-slicer':
+            // TODO
+            break;
+
+          case 'create-grater':
+            // TODO
+            break;
+
+          case 'create-roller':
+            // TODO
+            break;
+
+          case 'create-blender':
+            // TODO
+            break;
+        }
+        // const machine = this.findMachine(p);
+
+        // if (machine) {
+        //   machine.onClick();
+        // }
+      }
+    }
+  }
+
   public draw(context: CanvasRenderingContext2D, camera: Camera) {
     const floorSize = vec.mul(
       vec(this.width, this.height),
       FactoryFloor.TILE_SIZE
     );
-    const start = vec.sub(
-      camera.position,
-      vec.mul(floorSize, 0.5)
-    );
+    const start = vec.sub(camera.position, vec.mul(floorSize, 0.5));
 
     context.save();
+    context.translate(start.x, start.y);
 
+    // Draw grid
     for (let y = 0; y < this.height; y++) {
       for (let x = 0; x < this.width; x++) {
-        const p = vec.add(
-          start,
-          vec(x * FactoryFloor.TILE_SIZE, y * FactoryFloor.TILE_SIZE)
-        );
+        const p = vec(x * FactoryFloor.TILE_SIZE, y * FactoryFloor.TILE_SIZE);
         const s = vec(FactoryFloor.TILE_SIZE, FactoryFloor.TILE_SIZE);
 
         this.drawEmptyTile(context, p, s);
       }
     }
 
-    context.restore();
-
     // Draw machines
+    for (const machine of this.state) {
+      machine.draw(context, FactoryFloor.TILE_SIZE);
+    }
 
-    // ...
+    context.restore();
   }
 
   public drawEmptyTile(context: CanvasRenderingContext2D, p: vec, s: vec) {

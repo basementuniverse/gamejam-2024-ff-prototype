@@ -1,7 +1,8 @@
-import { Item } from '../Item';
-import { Machine } from './Machine';
+import ContentManager from '@basementuniverse/content-manager';
 import { pluck } from '@basementuniverse/utils';
 import { FactoryFloor } from '../FactoryFloor';
+import { Item } from '../Item';
+import { Machine } from './Machine';
 
 export class ServingCounter extends Machine {
   public expectedItem: Item | null = null;
@@ -32,6 +33,10 @@ export class ServingCounter extends Machine {
     return cloned;
   }
 
+  public reset(): ServingCounter {
+    return new ServingCounter(this);
+  }
+
   public clone(): ServingCounter {
     const cloned = new ServingCounter(this);
 
@@ -52,14 +57,26 @@ export class ServingCounter extends Machine {
 
     return (
       this.expectedItem.tags.length === this.outputItem.tags.length &&
-      this.expectedItem.tags.every(
-        tag => this.outputItem!.tags.includes(tag)
-      )
+      this.expectedItem.tags.every(tag => this.outputItem!.tags.includes(tag))
     );
   }
 
   private calculateScore() {
     // compare expectedItem to outputItem and apply score based on similarity
+  }
+
+  public update(dt: number) {}
+
+  public draw(context: CanvasRenderingContext2D, size: number) {
+    context.save();
+    context.translate(this.position.x * size, this.position.y * size);
+
+    let image = ContentManager.get<HTMLImageElement>('serving-counter');
+    if (image) {
+      context.drawImage(image, 0, 0, size, size);
+    }
+
+    context.restore();
   }
 
   public debugOutput(): string {

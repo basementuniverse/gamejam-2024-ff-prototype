@@ -1,12 +1,18 @@
-import { Machine } from './Machine';
-import { FactoryFloor } from '../FactoryFloor';
+import ContentManager from '@basementuniverse/content-manager';
 import { pluck } from '@basementuniverse/utils';
+import { FactoryFloor } from '../FactoryFloor';
 import { Item } from '../Item';
+import { Machine } from './Machine';
 
 export class Oven extends Machine {
+  private static readonly WORKING_JITTER_FREQUENCY = 2;
+  private static readonly WORKING_JITTER_AMPLITUDE = 2;
+
   public cookingTime = 2;
   public cookingProgress = 0;
   public cookingItem: Item | null = null;
+
+  private t = 0;
 
   public constructor(data: Partial<Oven> = {}) {
     super(pluck(data, 'position', 'direction'));
@@ -43,6 +49,10 @@ export class Oven extends Machine {
     return cloned;
   }
 
+  public reset(): Oven {
+    return new Oven(this);
+  }
+
   public clone(): Oven {
     const cloned = new Oven(this);
 
@@ -53,8 +63,51 @@ export class Oven extends Machine {
     return cloned;
   }
 
+  public update(dt: number) {
+    this.t += dt;
+  }
+
+  public draw(context: CanvasRenderingContext2D, size: number) {
+    context.save();
+    context.translate(this.position.x * size, this.position.y * size);
+
+    let s = 0;
+    if (this.status === 'working') {
+      s =
+        Math.sin(this.t * Oven.WORKING_JITTER_FREQUENCY) *
+        Oven.WORKING_JITTER_AMPLITUDE;
+    }
+
+    let image: HTMLImageElement | undefined = undefined;
+    switch (this.direction) {
+      case 'left':
+        image = ContentManager.get<HTMLImageElement>('oven-left');
+        break;
+
+      case 'right':
+        image = ContentManager.get<HTMLImageElement>('oven-right');
+        break;
+
+      case 'up':
+        image = ContentManager.get<HTMLImageElement>('oven-up');
+        break;
+
+      case 'down':
+        image = ContentManager.get<HTMLImageElement>('oven-down');
+        break;
+    }
+
+    if (image) {
+      context.drawImage(image, -s, -s, size + s, size + s);
+    }
+
+    context.restore();
+  }
+
   public debugOutput(): string {
     const cookingItem = this.cookingItem?.debugOutput() || '-';
-    return `OVN${super.debugOutput()}(${cookingItem}:${this.cookingProgress}/${this.cookingTime})`;
+    return `OVN${super.debugOutput()}(${cookingItem}:${this.cookingProgress}/${
+      this.cookingTime
+    })`;
   }
 }

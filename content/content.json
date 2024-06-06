@@ -8,5 +8,225 @@
     "name": "ff",
     "type": "image",
     "args": ["content/food-factory.png"]
+  },
+  {
+    "name": "title",
+    "type": "image",
+    "args": ["content/food-factory-title.png"]
+  },
+  {
+    "name": "intro-music",
+    "type": "audio",
+    "args": ["content/intro-music.mp3"]
+  },
+  {
+    "name": "game-music",
+    "type": "audio",
+    "args": ["content/game-music.mp3"]
+  },
+  {
+    "name": "blender-left",
+    "type": "image",
+    "args": ["content/blender-left.png"]
+  },
+  {
+    "name": "blender-right",
+    "type": "image",
+    "args": ["content/blender-right.png"]
+  },
+  {
+    "name": "blender-up",
+    "type": "image",
+    "args": ["content/blender-up.png"]
+  },
+  {
+    "name": "blender-down",
+    "type": "image",
+    "args": ["content/blender-down.png"]
+  },
+  {
+    "name": "conveyor-down",
+    "type": "image",
+    "args": ["content/conveyor-down.png"]
+  },
+  {
+    "name": "conveyor-down-left",
+    "type": "image",
+    "args": ["content/conveyor-down-left.png"]
+  },
+  {
+    "name": "conveyor-down-right",
+    "type": "image",
+    "args": ["content/conveyor-down-right.png"]
+  },
+  {
+    "name": "conveyor-left",
+    "type": "image",
+    "args": ["content/conveyor-left.png"]
+  },
+  {
+    "name": "conveyor-left-down",
+    "type": "image",
+    "args": ["content/conveyor-left-down.png"]
+  },
+  {
+    "name": "conveyor-left-up",
+    "type": "image",
+    "args": ["content/conveyor-left-up.png"]
+  },
+  {
+    "name": "conveyor-right",
+    "type": "image",
+    "args": ["content/conveyor-right.png"]
+  },
+  {
+    "name": "conveyor-right-down",
+    "type": "image",
+    "args": ["content/conveyor-right-down.png"]
+  },
+  {
+    "name": "conveyor-right-up",
+    "type": "image",
+    "args": ["content/conveyor-right-up.png"]
+  },
+  {
+    "name": "conveyor-up",
+    "type": "image",
+    "args": ["content/conveyor-up.png"]
+  },
+  {
+    "name": "conveyor-up-left",
+    "type": "image",
+    "args": ["content/conveyor-up-left.png"]
+  },
+  {
+    "name": "conveyor-up-right",
+    "type": "image",
+    "args": ["content/conveyor-up-right.png"]
+  },
+  {
+    "name": "combiner-left",
+    "type": "image",
+    "args": ["content/combiner-left.png"]
+  },
+  {
+    "name": "combiner-right",
+    "type": "image",
+    "args": ["content/combiner-right.png"]
+  },
+  {
+    "name": "combiner-up",
+    "type": "image",
+    "args": ["content/combiner-up.png"]
+  },
+  {
+    "name": "combiner-down",
+    "type": "image",
+    "args": ["content/combiner-down.png"]
+  },
+  {
+    "name": "dispenser",
+    "type": "image",
+    "args": ["content/dispenser.png"]
+  },
+  {
+    "name": "grater-left",
+    "type": "image",
+    "args": ["content/grater-left.png"]
+  },
+  {
+    "name": "grater-right",
+    "type": "image",
+    "args": ["content/grater-right.png"]
+  },
+  {
+    "name": "grater-up",
+    "type": "image",
+    "args": ["content/grater-up.png"]
+  },
+  {
+    "name": "grater-down",
+    "type": "image",
+    "args": ["content/grater-down.png"]
+  },
+  {
+    "name": "oven-left",
+    "type": "image",
+    "args": ["content/oven-left.png"]
+  },
+  {
+    "name": "oven-right",
+    "type": "image",
+    "args": ["content/oven-right.png"]
+  },
+  {
+    "name": "oven-up",
+    "type": "image",
+    "args": ["content/oven-up.png"]
+  },
+  {
+    "name": "oven-down",
+    "type": "image",
+    "args": ["content/oven-down.png"]
+  },
+  {
+    "name": "roller-left",
+    "type": "image",
+    "args": ["content/roller-left.png"]
+  },
+  {
+    "name": "roller-right",
+    "type": "image",
+    "args": ["content/roller-right.png"]
+  },
+  {
+    "name": "roller-up",
+    "type": "image",
+    "args": ["content/roller-up.png"]
+  },
+  {
+    "name": "roller-down",
+    "type": "image",
+    "args": ["content/roller-down.png"]
+  },
+  {
+    "name": "slicer-left",
+    "type": "image",
+    "args": ["content/slicer-left.png"]
+  },
+  {
+    "name": "slicer-right",
+    "type": "image",
+    "args": ["content/slicer-right.png"]
+  },
+  {
+    "name": "slicer-up",
+    "type": "image",
+    "args": ["content/slicer-up.png"]
+  },
+  {
+    "name": "slicer-down",
+    "type": "image",
+    "args": ["content/slicer-down.png"]
+  },
+  {
+    "name": "serving-counter",
+    "type": "image",
+    "args": ["content/serving-counter.png"]
+  },
+  {
+    "name": "select",
+    "type": "image",
+    "args": ["content/pointer.png"]
+  },
+  {
+    "name": "rotate",
+    "type": "image",
+    "args": ["content/rotate.png"]
+  },
+  {
+    "name": "delete",
+    "type": "image",
+    "args": ["content/bin.png"]
   }
 ]

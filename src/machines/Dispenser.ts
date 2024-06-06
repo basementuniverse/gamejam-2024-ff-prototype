@@ -1,7 +1,8 @@
+import ContentManager from '@basementuniverse/content-manager';
+import { pluck } from '@basementuniverse/utils';
+import { FactoryFloor } from '../FactoryFloor';
 import { Item } from '../Item';
 import { Machine } from './Machine';
-import { FactoryFloor } from '../FactoryFloor';
-import { pluck } from '@basementuniverse/utils';
 
 export class Dispenser extends Machine {
   public item: Item | null = null;
@@ -26,8 +27,26 @@ export class Dispenser extends Machine {
     return cloned;
   }
 
+  public reset(): Dispenser {
+    return new Dispenser(this);
+  }
+
   public clone(): Dispenser {
     return new Dispenser(this);
+  }
+
+  public update(dt: number) {}
+
+  public draw(context: CanvasRenderingContext2D, size: number) {
+    context.save();
+    context.translate(this.position.x * size, this.position.y * size);
+
+    let image = ContentManager.get<HTMLImageElement>('dispenser');
+    if (image) {
+      context.drawImage(image, 0, 0, size, size);
+    }
+
+    context.restore();
   }
 
   public debugOutput(): string {

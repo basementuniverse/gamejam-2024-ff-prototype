@@ -1,3 +1,4 @@
+import ContentManager from '@basementuniverse/content-manager';
 import { vec } from '@basementuniverse/vec';
 import { FactoryFloor } from '../FactoryFloor';
 import { Direction, Facing } from '../types';
@@ -37,6 +38,14 @@ export class Conveyor extends Machine {
     return cloned;
   }
 
+  public reset(): Conveyor {
+    return new Conveyor({
+      position: this.position,
+      input: this.input,
+      output: this.direction,
+    });
+  }
+
   public clone(): Conveyor {
     const cloned = new Conveyor({
       position: this.position,
@@ -47,6 +56,87 @@ export class Conveyor extends Machine {
     cloned.outputItem = this.outputItem;
 
     return cloned;
+  }
+
+  public update(dt: number) {}
+
+  public draw(context: CanvasRenderingContext2D, size: number) {
+    context.save();
+    context.translate(this.position.x * size, this.position.y * size);
+
+    let image: HTMLImageElement | undefined = undefined;
+
+    switch (this.direction) {
+      case 'left':
+        switch (this.input) {
+          case 'left':
+            image = ContentManager.get<HTMLImageElement>('conveyor-up-left');
+            break;
+
+          case 'right':
+            image = ContentManager.get<HTMLImageElement>('conveyor-down-left');
+            break;
+
+          case 'back':
+            image = ContentManager.get<HTMLImageElement>('conveyor-left');
+            break;
+        }
+        break;
+
+      case 'right':
+        switch (this.input) {
+          case 'left':
+            image = ContentManager.get<HTMLImageElement>('conveyor-down-right');
+            break;
+
+          case 'right':
+            image = ContentManager.get<HTMLImageElement>('conveyor-up-right');
+            break;
+
+          case 'back':
+            image = ContentManager.get<HTMLImageElement>('conveyor-right');
+            break;
+        }
+        break;
+
+      case 'up':
+        switch (this.input) {
+          case 'left':
+            image = ContentManager.get<HTMLImageElement>('conveyor-right-up');
+            break;
+
+          case 'right':
+            image = ContentManager.get<HTMLImageElement>('conveyor-left-up');
+            break;
+
+          case 'back':
+            image = ContentManager.get<HTMLImageElement>('conveyor-up');
+            break;
+        }
+        break;
+
+      case 'down':
+        switch (this.input) {
+          case 'left':
+            image = ContentManager.get<HTMLImageElement>('conveyor-right-down');
+            break;
+
+          case 'right':
+            image = ContentManager.get<HTMLImageElement>('conveyor-left-down');
+            break;
+
+          case 'back':
+            image = ContentManager.get<HTMLImageElement>('conveyor-down');
+            break;
+        }
+        break;
+    }
+
+    if (image) {
+      context.drawImage(image, 0, 0, size, size);
+    }
+
+    context.restore();
   }
 
   public debugOutput(): string {
