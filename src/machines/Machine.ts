@@ -1,10 +1,11 @@
-import Camera from '@basementuniverse/camera';
 import { vec } from '@basementuniverse/vec';
 import { FactoryFloor } from '../FactoryFloor';
 import { Item } from '../Item';
 import { Direction, Facing } from '../types';
 
 export abstract class Machine {
+  public static readonly ROTATIONS = ['right', 'down', 'left', 'up'];
+
   public position: vec = vec(0, 0);
   public direction: Direction = 'right';
   public input: Facing = 'back';
@@ -37,10 +38,7 @@ export abstract class Machine {
     return item;
   }
 
-  public abstract draw(
-    context: CanvasRenderingContext2D,
-    size: number
-  ): void;
+  public abstract draw(context: CanvasRenderingContext2D, size: number): void;
 
   public abstract update(dt: number): void;
 

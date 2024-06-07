@@ -1,3 +1,6 @@
+import ContentManager from '@basementuniverse/content-manager';
+import { vec } from '@basementuniverse/vec';
+
 export class Item {
   public tags: string[] = [];
 
@@ -27,6 +30,18 @@ export class Item {
 
   public hasAllTags(...tags: string[]): boolean {
     return tags.every(tag => this.tags.includes(tag));
+  }
+
+  public draw(context: CanvasRenderingContext2D, p: vec, s?: vec) {
+    context.save();
+    context.translate(p.x, p.y);
+
+    const image = ContentManager.get<HTMLImageElement>('error');
+    if (image) {
+      context.drawImage(image, 0, 0, s?.x ?? image.width, s?.y ?? image.height);
+    }
+
+    context.restore();
   }
 
   debugOutput(): string {

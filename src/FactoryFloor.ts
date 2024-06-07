@@ -1,4 +1,5 @@
 import Camera from '@basementuniverse/camera';
+import ContentManager from '@basementuniverse/content-manager';
 import InputManager from '@basementuniverse/input-manager';
 import { times } from '@basementuniverse/utils';
 import { vec } from '@basementuniverse/vec';
@@ -18,7 +19,6 @@ import { Direction, Facing } from './types';
 
 export class FactoryFloor {
   private static readonly TILE_SIZE = 80;
-  private static readonly TILE_BORDER = 2;
 
   public width: number = 10;
   public height: number = 10;
@@ -54,6 +54,8 @@ export class FactoryFloor {
   public state: Machine[] = [];
   public newState: Machine[] = [];
   public tickCount = 0;
+
+  public servingCounterValid: boolean | null = null;
 
   constructor(size?: vec) {
     if (size) {
@@ -112,27 +114,25 @@ export class FactoryFloor {
       new Combiner({
         position: vec(1, 4),
         direction: 'down',
-        inputs: ['back', 'left'],
       }),
       new Conveyor({ position: vec(2, 4), output: 'left' }),
       new Combiner({
         position: vec(3, 4),
         direction: 'left',
-        inputs: ['back', 'right'],
       }),
       new Conveyor({ position: vec(4, 4), output: 'left' }),
       new Combiner({
         position: vec(5, 4),
         direction: 'left',
-        inputs: ['back', 'right'],
       }),
       new Conveyor({ position: vec(6, 4), output: 'left' }),
       new Conveyor({ position: vec(7, 4), output: 'left', input: 'right' }),
       new Conveyor({ position: vec(1, 5), output: 'down' }),
       new Oven({ position: vec(1, 6), direction: 'down' }),
       new Conveyor({ position: vec(1, 7), output: 'down' }),
+      new Conveyor({ position: vec(1, 8), output: 'down' }),
       new ServingCounter({
-        position: vec(1, 8),
+        position: vec(1, 9),
         direction: 'down',
         expectedItem: new Item([
           'dough_rolled_cooked',
@@ -146,12 +146,22 @@ export class FactoryFloor {
     this.state = testFactory;
   }
 
-  public addMachine(p: vec) {
-    //
+  public addMachine(machine: Machine) {
+    const placeSound = ContentManager.get<HTMLAudioElement>('place-sound');
+    if (placeSound) {
+      placeSound.play();
+    }
+
+    this.state.push(machine);
   }
 
   public removeMachine(p: vec) {
-    //
+    const destroySound = ContentManager.get<HTMLAudioElement>('destroy-sound');
+    if (destroySound) {
+      destroySound.play();
+    }
+
+    this.state = this.state.filter(machine => !vec.eq(machine.position, p));
   }
 
   public findAdjacentMachine(p: vec, direction: vec): Machine | null {
@@ -179,11 +189,22 @@ export class FactoryFloor {
       dispense = true;
     }
 
+    let previousServingCounterValid = this.servingCounterValid;
+
     for (const machine of this.state) {
       if (machine instanceof Dispenser) {
         this.newState.push(machine.tick(this, dispense));
       } else {
         this.newState.push(machine.tick(this));
+      }
+    }
+
+    if (previousServingCounterValid === null) {
+      if (this.servingCounterValid === true) {
+        game.win();
+      }
+      if (this.servingCounterValid === false) {
+        game.lose();
       }
     }
 
@@ -213,51 +234,107 @@ export class FactoryFloor {
       );
 
       if (p.x >= 0 && p.x < this.width && p.y >= 0 && p.y < this.height) {
+        const machine = this.findMachine(p);
         switch (toolMode) {
           case 'select':
             break;
 
           case 'rotate':
-            // TODO
+            if (machine) {
+              if (machine instanceof Conveyor) {
+                const currentDirection = `${machine.direction}_${machine.input}`;
+                const index = Conveyor.ROTATIONS.indexOf(currentDirection);
+                const [newDirection, newInput] =
+                  Conveyor.ROTATIONS[
+                    (index + 1) % Conveyor.ROTATIONS.length
+                  ].split('_');
+
+                machine.direction = newDirection as Direction;
+                machine.input = newInput as Facing;
+                break;
+              }
+
+              if (machine instanceof Dispenser) {
+                break;
+              }
+
+              const index = Machine.ROTATIONS.indexOf(machine.direction);
+              machine.direction = Machine.ROTATIONS[
+                (index + 1) % Machine.ROTATIONS.length
+              ] as Direction;
+            }
             break;
 
           case 'delete':
-            // TODO
+            if (machine) {
+              if (machine instanceof Dispenser) {
+                break;
+              }
+
+              if (machine instanceof ServingCounter) {
+                break;
+              }
+
+              this.removeMachine(p);
+            }
             break;
 
           case 'create-conveyor':
-            // TODO
+            if (machine) {
+              break;
+            }
+
+            this.addMachine(new Conveyor({ position: p }));
             break;
 
           case 'create-combiner':
-            // TODO
+            if (machine) {
+              break;
+            }
+
+            this.addMachine(new Combiner({ position: p, direction: 'right' }));
             break;
 
           case 'create-oven':
-            // TODO
+            if (machine) {
+              break;
+            }
+
+            this.addMachine(new Oven({ position: p, direction: 'right' }));
             break;
 
           case 'create-slicer':
-            // TODO
+            if (machine) {
+              break;
+            }
+
+            this.addMachine(new Slicer({ position: p, direction: 'right' }));
             break;
 
           case 'create-grater':
-            // TODO
+            if (machine) {
+              break;
+            }
+
+            this.addMachine(new Grater({ position: p, direction: 'right' }));
             break;
 
           case 'create-roller':
-            // TODO
+            if (machine) {
+              break;
+            }
+
+            this.addMachine(new Roller({ position: p, direction: 'right' }));
             break;
 
           case 'create-blender':
-            // TODO
+            if (machine) {
+              break;
+            }
+
+            this.addMachine(new Blender({ position: p, direction: 'right' }));
             break;
         }
-        // const machine = this.findMachine(p);
-
-        // if (machine) {
-        //   machine.onClick();
-        // }
       }
     }
   }
@@ -278,7 +355,7 @@ export class FactoryFloor {
         const p = vec(x * FactoryFloor.TILE_SIZE, y * FactoryFloor.TILE_SIZE);
         const s = vec(FactoryFloor.TILE_SIZE, FactoryFloor.TILE_SIZE);
 
-        this.drawEmptyTile(context, p, s);
+        this.drawEmptyTile(context, p, s, x % 2 === y % 2);
       }
     }
 
@@ -290,16 +367,16 @@ export class FactoryFloor {
     context.restore();
   }
 
-  public drawEmptyTile(context: CanvasRenderingContext2D, p: vec, s: vec) {
+  public drawEmptyTile(
+    context: CanvasRenderingContext2D,
+    p: vec,
+    s: vec,
+    odd: boolean = false
+  ) {
     context.save();
 
-    context.fillStyle = '#ffffff20';
-    context.fillRect(
-      p.x + FactoryFloor.TILE_BORDER,
-      p.y + FactoryFloor.TILE_BORDER,
-      s.x - FactoryFloor.TILE_BORDER * 2,
-      s.y - FactoryFloor.TILE_BORDER * 2
-    );
+    context.fillStyle = odd ? '#ffffff20' : '#00000020';
+    context.fillRect(p.x, p.y, s.x, s.y);
 
     context.restore();
   }

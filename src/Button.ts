@@ -35,6 +35,11 @@ export class Button {
       this.hover = true;
 
       if (InputManager.mousePressed()) {
+        const sound = ContentManager.get<HTMLAudioElement>('button-sound');
+        if (sound) {
+          sound.play();
+        }
+
         this.onClick();
       }
     }

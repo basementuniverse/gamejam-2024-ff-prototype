@@ -105,6 +105,14 @@ export class Roller extends Machine {
       context.drawImage(image, p.x, p.y, size, size);
     }
 
+    if (this.rollingItem) {
+      this.rollingItem.draw(context, vec(), vec.mul(vec(size), 0.25));
+    }
+
+    if (this.outputItem) {
+      this.outputItem.draw(context, vec(), vec.mul(vec(size), 0.25));
+    }
+
     context.restore();
   }
 

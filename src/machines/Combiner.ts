@@ -1,9 +1,10 @@
+import ContentManager from '@basementuniverse/content-manager';
 import { pluck } from '@basementuniverse/utils';
+import { vec } from '@basementuniverse/vec';
 import { FactoryFloor } from '../FactoryFloor';
 import { Item } from '../Item';
 import { Facing } from '../types';
 import { Machine } from './Machine';
-import ContentManager from '@basementuniverse/content-manager';
 
 export class Combiner extends Machine {
   public inputs: Facing[] = ['left', 'right', 'back'];
@@ -96,6 +97,18 @@ export class Combiner extends Machine {
 
     if (image) {
       context.drawImage(image, 0, 0, size, size);
+    }
+
+    if (this.combiningItemA) {
+      this.combiningItemA.draw(context, vec(), vec.mul(vec(size), 0.25));
+    }
+
+    if (this.combiningItemB) {
+      this.combiningItemB.draw(context, vec(), vec.mul(vec(size), 0.25));
+    }
+
+    if (this.outputItem) {
+      this.outputItem.draw(context, vec(), vec.mul(vec(size), 0.25));
     }
 
     context.restore();

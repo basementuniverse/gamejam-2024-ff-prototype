@@ -1,5 +1,6 @@
 import ContentManager from '@basementuniverse/content-manager';
 import { pluck } from '@basementuniverse/utils';
+import { vec } from '@basementuniverse/vec';
 import { FactoryFloor } from '../FactoryFloor';
 import { Item } from '../Item';
 import { Machine } from './Machine';
@@ -28,6 +29,10 @@ export class ServingCounter extends Machine {
       console.log('item: ', cloned.outputItem);
       console.log('expected: ', cloned.expectedItem);
       console.log('valid: ', cloned.isValidOrder() ? 'yes' : 'no');
+
+      factory.servingCounterValid = cloned.isValidOrder();
+    } else {
+      factory.servingCounterValid = null;
     }
 
     return cloned;
@@ -74,6 +79,10 @@ export class ServingCounter extends Machine {
     let image = ContentManager.get<HTMLImageElement>('serving-counter');
     if (image) {
       context.drawImage(image, 0, 0, size, size);
+    }
+
+    if (this.outputItem) {
+      this.outputItem.draw(context, vec(), vec.mul(vec(size), 0.25));
     }
 
     context.restore();

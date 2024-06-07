@@ -53,8 +53,8 @@ export default class Game {
     // Initialise subsystems
     ContentManager.initialise({
       simulateSlowLoading: constants.DEBUG,
-      slowLoadingTimeMin: 10,
-      slowLoadingTimeMax: 100,
+      slowLoadingTimeMin: 0,
+      slowLoadingTimeMax: 50,
     });
     Debug.initialise();
     InputManager.initialise();

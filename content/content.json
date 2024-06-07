@@ -17,202 +17,242 @@
   {
     "name": "intro-music",
     "type": "audio",
-    "args": ["content/intro-music.mp3"]
+    "args": ["content/music/intro-music.mp3"]
   },
   {
     "name": "game-music",
     "type": "audio",
-    "args": ["content/game-music.mp3"]
+    "args": ["content/music/game-music.mp3"]
+  },
+  {
+    "name": "button-sound",
+    "type": "audio",
+    "args": ["content/sounds/button.wav"]
+  },
+  {
+    "name": "place-sound",
+    "type": "audio",
+    "args": ["content/sounds/place.wav"]
+  },
+  {
+    "name": "destroy-sound",
+    "type": "audio",
+    "args": ["content/sounds/destroy.wav"]
+  },
+  {
+    "name": "win-sound",
+    "type": "audio",
+    "args": ["content/sounds/win.mp3"]
+  },
+  {
+    "name": "lose-sound",
+    "type": "audio",
+    "args": ["content/sounds/lose.mp3"]
+  },
+  {
+    "name": "customer-waiting",
+    "type": "image",
+    "args": ["content/customers/customer-waiting.png"]
+  },
+  {
+    "name": "customer-happy",
+    "type": "image",
+    "args": ["content/customers/customer-happy.png"]
+  },
+  {
+    "name": "customer-angry",
+    "type": "image",
+    "args": ["content/customers/customer-angry.png"]
   },
   {
     "name": "blender-left",
     "type": "image",
-    "args": ["content/blender-left.png"]
+    "args": ["content/machines/blender-left.png"]
   },
   {
     "name": "blender-right",
     "type": "image",
-    "args": ["content/blender-right.png"]
+    "args": ["content/machines/blender-right.png"]
   },
   {
     "name": "blender-up",
     "type": "image",
-    "args": ["content/blender-up.png"]
+    "args": ["content/machines/blender-up.png"]
   },
   {
     "name": "blender-down",
     "type": "image",
-    "args": ["content/blender-down.png"]
+    "args": ["content/machines/blender-down.png"]
   },
   {
     "name": "conveyor-down",
     "type": "image",
-    "args": ["content/conveyor-down.png"]
+    "args": ["content/machines/conveyor-down.png"]
   },
   {
     "name": "conveyor-down-left",
     "type": "image",
-    "args": ["content/conveyor-down-left.png"]
+    "args": ["content/machines/conveyor-down-left.png"]
   },
   {
     "name": "conveyor-down-right",
     "type": "image",
-    "args": ["content/conveyor-down-right.png"]
+    "args": ["content/machines/conveyor-down-right.png"]
   },
   {
     "name": "conveyor-left",
     "type": "image",
-    "args": ["content/conveyor-left.png"]
+    "args": ["content/machines/conveyor-left.png"]
   },
   {
     "name": "conveyor-left-down",
     "type": "image",
-    "args": ["content/conveyor-left-down.png"]
+    "args": ["content/machines/conveyor-left-down.png"]
   },
   {
     "name": "conveyor-left-up",
     "type": "image",
-    "args": ["content/conveyor-left-up.png"]
+    "args": ["content/machines/conveyor-left-up.png"]
   },
   {
     "name": "conveyor-right",
     "type": "image",
-    "args": ["content/conveyor-right.png"]
+    "args": ["content/machines/conveyor-right.png"]
   },
   {
     "name": "conveyor-right-down",
     "type": "image",
-    "args": ["content/conveyor-right-down.png"]
+    "args": ["content/machines/conveyor-right-down.png"]
   },
   {
     "name": "conveyor-right-up",
     "type": "image",
-    "args": ["content/conveyor-right-up.png"]
+    "args": ["content/machines/conveyor-right-up.png"]
   },
   {
     "name": "conveyor-up",
     "type": "image",
-    "args": ["content/conveyor-up.png"]
+    "args": ["content/machines/conveyor-up.png"]
   },
   {
     "name": "conveyor-up-left",
     "type": "image",
-    "args": ["content/conveyor-up-left.png"]
+    "args": ["content/machines/conveyor-up-left.png"]
   },
   {
     "name": "conveyor-up-right",
     "type": "image",
-    "args": ["content/conveyor-up-right.png"]
+    "args": ["content/machines/conveyor-up-right.png"]
   },
   {
     "name": "combiner-left",
     "type": "image",
-    "args": ["content/combiner-left.png"]
+    "args": ["content/machines/combiner-left.png"]
   },
   {
     "name": "combiner-right",
     "type": "image",
-    "args": ["content/combiner-right.png"]
+    "args": ["content/machines/combiner-right.png"]
   },
   {
     "name": "combiner-up",
     "type": "image",
-    "args": ["content/combiner-up.png"]
+    "args": ["content/machines/combiner-up.png"]
   },
   {
     "name": "combiner-down",
     "type": "image",
-    "args": ["content/combiner-down.png"]
+    "args": ["content/machines/combiner-down.png"]
   },
   {
     "name": "dispenser",
     "type": "image",
-    "args": ["content/dispenser.png"]
+    "args": ["content/machines/dispenser.png"]
   },
   {
     "name": "grater-left",
     "type": "image",
-    "args": ["content/grater-left.png"]
+    "args": ["content/machines/grater-left.png"]
   },
   {
     "name": "grater-right",
     "type": "image",
-    "args": ["content/grater-right.png"]
+    "args": ["content/machines/grater-right.png"]
   },
   {
     "name": "grater-up",
     "type": "image",
-    "args": ["content/grater-up.png"]
+    "args": ["content/machines/grater-up.png"]
   },
   {
     "name": "grater-down",
     "type": "image",
-    "args": ["content/grater-down.png"]
+    "args": ["content/machines/grater-down.png"]
   },
   {
     "name": "oven-left",
     "type": "image",
-    "args": ["content/oven-left.png"]
+    "args": ["content/machines/oven-left.png"]
   },
   {
     "name": "oven-right",
     "type": "image",
-    "args": ["content/oven-right.png"]
+    "args": ["content/machines/oven-right.png"]
   },
   {
     "name": "oven-up",
     "type": "image",
-    "args": ["content/oven-up.png"]
+    "args": ["content/machines/oven-up.png"]
   },
   {
     "name": "oven-down",
     "type": "image",
-    "args": ["content/oven-down.png"]
+    "args": ["content/machines/oven-down.png"]
   },
   {
     "name": "roller-left",
     "type": "image",
-    "args": ["content/roller-left.png"]
+    "args": ["content/machines/roller-left.png"]
   },
   {
     "name": "roller-right",
     "type": "image",
-    "args": ["content/roller-right.png"]
+    "args": ["content/machines/roller-right.png"]
   },
   {
     "name": "roller-up",
     "type": "image",
-    "args": ["content/roller-up.png"]
+    "args": ["content/machines/roller-up.png"]
   },
   {
     "name": "roller-down",
     "type": "image",
-    "args": ["content/roller-down.png"]
+    "args": ["content/machines/roller-down.png"]
   },
   {
     "name": "slicer-left",
     "type": "image",
-    "args": ["content/slicer-left.png"]
+    "args": ["content/machines/slicer-left.png"]
   },
   {
     "name": "slicer-right",
     "type": "image",
-    "args": ["content/slicer-right.png"]
+    "args": ["content/machines/slicer-right.png"]
   },
   {
     "name": "slicer-up",
     "type": "image",
-    "args": ["content/slicer-up.png"]
+    "args": ["content/machines/slicer-up.png"]
   },
   {
     "name": "slicer-down",
     "type": "image",
-    "args": ["content/slicer-down.png"]
+    "args": ["content/machines/slicer-down.png"]
   },
   {
     "name": "serving-counter",
     "type": "image",
-    "args": ["content/serving-counter.png"]
+    "args": ["content/machines/serving-counter.png"]
   },
   {
     "name": "select",
@@ -228,5 +268,40 @@
     "name": "delete",
     "type": "image",
     "args": ["content/bin.png"]
+  },
+  {
+    "name": "error",
+    "type": "image",
+    "args": ["content/error.png"]
+  },
+  {
+    "name": "dough",
+    "type": "image",
+    "args": ["content/items/dough.png"]
+  },
+  {
+    "name": "dough-rolled",
+    "type": "image",
+    "args": ["content/items/dough_rolled.png"]
+  },
+  {
+    "name": "salami",
+    "type": "image",
+    "args": ["content/items/salami.png"]
+  },
+  {
+    "name": "salami",
+    "type": "image",
+    "args": ["content/items/salami_sliced.png"]
+  },
+  {
+    "name": "tomato",
+    "type": "image",
+    "args": ["content/items/tomato.png"]
+  },
+  {
+    "name": "tomato",
+    "type": "image",
+    "args": ["content/items/tomato_sliced.png"]
   }
 ]

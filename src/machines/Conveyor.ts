@@ -5,6 +5,21 @@ import { Direction, Facing } from '../types';
 import { Machine } from './Machine';
 
 export class Conveyor extends Machine {
+  public static readonly ROTATIONS = [
+    'right_left',
+    'right_right',
+    'right_back',
+    'down_left',
+    'down_right',
+    'down_back',
+    'left_left',
+    'left_right',
+    'left_back',
+    'up_left',
+    'up_right',
+    'up_back',
+  ];
+
   public constructor(
     data: {
       position?: vec;
@@ -134,6 +149,10 @@ export class Conveyor extends Machine {
 
     if (image) {
       context.drawImage(image, 0, 0, size, size);
+    }
+
+    if (this.outputItem) {
+      this.outputItem.draw(context, vec(), vec.mul(vec(size), 0.25));
     }
 
     context.restore();

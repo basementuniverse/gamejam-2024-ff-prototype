@@ -1,5 +1,6 @@
 import ContentManager from '@basementuniverse/content-manager';
 import { pluck } from '@basementuniverse/utils';
+import { vec } from '@basementuniverse/vec';
 import { FactoryFloor } from '../FactoryFloor';
 import { Item } from '../Item';
 import { Machine } from './Machine';
@@ -99,6 +100,14 @@ export class Oven extends Machine {
 
     if (image) {
       context.drawImage(image, -s, -s, size + s, size + s);
+    }
+
+    if (this.cookingItem) {
+      this.cookingItem.draw(context, vec(), vec.mul(vec(size), 0.25));
+    }
+
+    if (this.outputItem) {
+      this.outputItem.draw(context, vec(), vec.mul(vec(size), 0.25));
     }
 
     context.restore();
