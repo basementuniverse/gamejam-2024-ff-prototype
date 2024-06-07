@@ -11,6 +11,7 @@ import { Button } from './Button';
 import { Customer } from './Customer';
 import { FactoryFloor } from './FactoryFloor';
 import Game from './Game';
+import { HelpScene } from './HelpScene';
 
 export type ToolMode =
   | 'select'
@@ -27,7 +28,7 @@ export type ToolMode =
 export class GameScene extends Scene {
   private static readonly TRANSITION_TIME: number = 1;
   private static readonly TICK_TIME = 1;
-  private static readonly TOOLBAR_WIDTH = 680;
+  private static readonly TOOLBAR_WIDTH = 750;
 
   public factoryFloor: FactoryFloor;
   public customers: Customer[] = [];
@@ -54,6 +55,8 @@ export class GameScene extends Scene {
   private createRollerButton: Button;
   private createBlenderButton: Button;
 
+  private helpButton: Button;
+
   private music: HTMLAudioElement | null = null;
 
   public constructor() {
@@ -70,7 +73,7 @@ export class GameScene extends Scene {
 
   public stop() {
     this.playing = false;
-    this.playButton.label = 'Play';
+    this.playButton.label = 'Start';
     this.playButton.colour = '#89cc87';
   }
 
@@ -79,6 +82,7 @@ export class GameScene extends Scene {
 
     if (this.customers.length > 0) {
       this.customers[0].status = 'served-happy';
+      this.customers[0].speech = 'Yay!';
     }
 
     const winSound = ContentManager.get<HTMLAudioElement>('win-sound');
@@ -92,6 +96,7 @@ export class GameScene extends Scene {
 
     if (this.customers.length > 0) {
       this.customers[0].status = 'served-angry';
+      this.customers[0].speech = 'That was terrible!';
     }
 
     const loseSound = ContentManager.get<HTMLAudioElement>('lose-sound');
@@ -109,7 +114,7 @@ export class GameScene extends Scene {
       vec(100, 30),
       null,
       '#89cc87',
-      'Play',
+      'Start',
       () => {
         if (this.playing) {
           this.stop();
@@ -248,6 +253,18 @@ export class GameScene extends Scene {
       }
     );
 
+    // Help button
+    this.helpButton = new Button(
+      vec(toolbarStart + 500 + 200, this.camera.bounds.top + 10),
+      vec(50, 50),
+      'help',
+      null,
+      '',
+      () => {
+        SceneManager.push(new HelpScene());
+      }
+    );
+
     const music = ContentManager.get<HTMLAudioElement>('game-music');
     if (music) {
       this.music = music;
@@ -300,18 +317,21 @@ export class GameScene extends Scene {
     const toolbarStart = this.camera.position.x - GameScene.TOOLBAR_WIDTH / 2;
     this.selectButton.position = vec(toolbarStart, this.camera.bounds.top + 10);
     this.selectButton.update(this.camera);
+    this.selectButton.active = this.toolMode === 'select';
 
     this.rotateButton.position = vec(
       toolbarStart + 50 + 20,
       this.camera.bounds.top + 10
     );
     this.rotateButton.update(this.camera);
+    this.rotateButton.active = this.toolMode === 'rotate';
 
     this.deleteButton.position = vec(
       toolbarStart + 100 + 40,
       this.camera.bounds.top + 10
     );
     this.deleteButton.update(this.camera);
+    this.deleteButton.active = this.toolMode === 'delete';
 
     // Create machine buttons
     this.createConveyorButton.position = vec(
@@ -319,42 +339,55 @@ export class GameScene extends Scene {
       this.camera.bounds.top + 10
     );
     this.createConveyorButton.update(this.camera);
+    this.createConveyorButton.active = this.toolMode === 'create-conveyor';
 
     this.createCombinerButton.position = vec(
       toolbarStart + 200 + 80,
       this.camera.bounds.top + 10
     );
     this.createCombinerButton.update(this.camera);
+    this.createCombinerButton.active = this.toolMode === 'create-combiner';
 
     this.createOvenButton.position = vec(
       toolbarStart + 250 + 100,
       this.camera.bounds.top + 10
     );
     this.createOvenButton.update(this.camera);
+    this.createOvenButton.active = this.toolMode === 'create-oven';
 
     this.createSlicerButton.position = vec(
       toolbarStart + 300 + 120,
       this.camera.bounds.top + 10
     );
     this.createSlicerButton.update(this.camera);
+    this.createSlicerButton.active = this.toolMode === 'create-slicer';
 
     this.createGraterButton.position = vec(
       toolbarStart + 350 + 140,
       this.camera.bounds.top + 10
     );
     this.createGraterButton.update(this.camera);
+    this.createGraterButton.active = this.toolMode === 'create-grater';
 
     this.createRollerButton.position = vec(
       toolbarStart + 400 + 160,
       this.camera.bounds.top + 10
     );
     this.createRollerButton.update(this.camera);
+    this.createRollerButton.active = this.toolMode === 'create-roller';
 
     this.createBlenderButton.position = vec(
       toolbarStart + 450 + 180,
       this.camera.bounds.top + 10
     );
     this.createBlenderButton.update(this.camera);
+    this.createBlenderButton.active = this.toolMode === 'create-blender';
+
+    this.helpButton.position = vec(
+      toolbarStart + 500 + 200,
+      this.camera.bounds.top + 10
+    );
+    this.helpButton.update(this.camera);
 
     // if (InputManager.keyPressed('Space')) {
     //   this.factoryFloor.tick(this);
@@ -415,6 +448,8 @@ export class GameScene extends Scene {
     this.createGraterButton.draw(context);
     this.createRollerButton.draw(context);
     this.createBlenderButton.draw(context);
+
+    this.helpButton.draw(context);
 
     if (this.customers.length > 0) {
       this.customers[0].draw(context, this.camera);

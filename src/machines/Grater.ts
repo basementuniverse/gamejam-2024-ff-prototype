@@ -106,11 +106,19 @@ export class Grater extends Machine {
     }
 
     if (this.gratingItem) {
-      this.gratingItem.draw(context, vec(), vec.mul(vec(size), 0.25));
+      this.gratingItem.draw(
+        context,
+        vec.mul(vec(size), 0.35),
+        vec.mul(vec(size), 0.4)
+      );
     }
 
     if (this.outputItem) {
-      this.outputItem.draw(context, vec(), vec.mul(vec(size), 0.25));
+      this.outputItem.draw(
+        context,
+        vec.mul(vec(size), 0.35),
+        vec.mul(vec(size), 0.4)
+      );
     }
 
     context.restore();

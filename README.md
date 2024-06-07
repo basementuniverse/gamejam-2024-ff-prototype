@@ -8,13 +8,14 @@ assets:
 [x] dough
 [x] salami
 [x] tomato
-[ ] cheese
+[x] cheese
 [x] dough_rolled
-[ ] cheese_grated
+[x] cheese_grated
 [x] salami sliced
-[ ] tomato blended
+[x] tomato blended
 [x] tomato sliced
-[ ] cooked pizza
+[x] uncooked pizza
+[x] cooked pizza
 
 code:
 [ ] render broken state for machines

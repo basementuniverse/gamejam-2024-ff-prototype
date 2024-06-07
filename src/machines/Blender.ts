@@ -111,12 +111,28 @@ export class Blender extends Machine {
       context.drawImage(image, p.x, p.y, size, size);
     }
 
+    if (this.status === 'broken') {
+      const brokenImage =
+        ContentManager.get<HTMLImageElement>('machine-broken');
+      if (brokenImage) {
+        context.drawImage(brokenImage, 0, 0, size, size);
+      }
+    }
+
     if (this.blendingItem) {
-      this.blendingItem.draw(context, vec(), vec.mul(vec(size), 0.25));
+      this.blendingItem.draw(
+        context,
+        vec.mul(vec(size), 0.35),
+        vec.mul(vec(size), 0.4)
+      );
     }
 
     if (this.outputItem) {
-      this.outputItem.draw(context, vec(), vec.mul(vec(size), 0.25));
+      this.outputItem.draw(
+        context,
+        vec.mul(vec(size), 0.35),
+        vec.mul(vec(size), 0.4)
+      );
     }
 
     context.restore();

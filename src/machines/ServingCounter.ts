@@ -82,7 +82,11 @@ export class ServingCounter extends Machine {
     }
 
     if (this.outputItem) {
-      this.outputItem.draw(context, vec(), vec.mul(vec(size), 0.25));
+      this.outputItem.draw(
+        context,
+        vec.mul(vec(size), 0.2),
+        vec.mul(vec(size), 0.6)
+      );
     }
 
     context.restore();

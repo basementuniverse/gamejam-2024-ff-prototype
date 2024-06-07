@@ -65,6 +65,21 @@
     "args": ["content/customers/customer-angry.png"]
   },
   {
+    "name": "speech-bubble",
+    "type": "image",
+    "args": ["content/speech-bubble.png"]
+  },
+  {
+    "name": "machine-broken",
+    "type": "image",
+    "args": ["content/machines/broken.png"]
+  },
+  {
+    "name": "instructions",
+    "type": "image",
+    "args": ["content/instructions.png"]
+  },
+  {
     "name": "blender-left",
     "type": "image",
     "args": ["content/machines/blender-left.png"]
@@ -270,6 +285,11 @@
     "args": ["content/bin.png"]
   },
   {
+    "name": "help",
+    "type": "image",
+    "args": ["content/help.png"]
+  },
+  {
     "name": "error",
     "type": "image",
     "args": ["content/error.png"]
@@ -280,7 +300,7 @@
     "args": ["content/items/dough.png"]
   },
   {
-    "name": "dough-rolled",
+    "name": "dough_rolled",
     "type": "image",
     "args": ["content/items/dough_rolled.png"]
   },
@@ -290,7 +310,7 @@
     "args": ["content/items/salami.png"]
   },
   {
-    "name": "salami",
+    "name": "salami_sliced",
     "type": "image",
     "args": ["content/items/salami_sliced.png"]
   },
@@ -300,8 +320,38 @@
     "args": ["content/items/tomato.png"]
   },
   {
-    "name": "tomato",
+    "name": "tomato_sliced",
     "type": "image",
     "args": ["content/items/tomato_sliced.png"]
+  },
+  {
+    "name": "tomato_blended",
+    "type": "image",
+    "args": ["content/items/tomato_blended.png"]
+  },
+  {
+    "name": "cheese",
+    "type": "image",
+    "args": ["content/items/cheese.png"]
+  },
+  {
+    "name": "cheese_grated",
+    "type": "image",
+    "args": ["content/items/cheese_grated.png"]
+  },
+  {
+    "name": "tupperware",
+    "type": "image",
+    "args": ["content/items/tupperware.png"]
+  },
+  {
+    "name": "pizza_uncooked",
+    "type": "image",
+    "args": ["content/items/pizza_uncooked.png"]
+  },
+  {
+    "name": "pizza_cooked",
+    "type": "image",
+    "args": ["content/items/pizza_cooked.png"]
   }
 ]

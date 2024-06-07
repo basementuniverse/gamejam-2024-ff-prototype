@@ -2,6 +2,70 @@ import ContentManager from '@basementuniverse/content-manager';
 import { vec } from '@basementuniverse/vec';
 
 export class Item {
+  private static readonly TAGS_TO_ASSETS: {
+    tags: string[];
+    asset: string;
+  }[] = [
+    {
+      tags: [
+        'dough_rolled',
+        'tomato_blended',
+        'cheese_grated',
+        'salami_sliced',
+      ],
+      asset: 'pizza_uncooked',
+    },
+    {
+      tags: [
+        'dough_rolled_cooked',
+        'tomato_blended_cooked',
+        'cheese_grated_cooked',
+        'salami_sliced_cooked',
+      ],
+      asset: 'pizza_cooked',
+    },
+    {
+      tags: ['dough'],
+      asset: 'dough',
+    },
+    {
+      tags: ['dough_rolled'],
+      asset: 'dough_rolled',
+    },
+    {
+      tags: ['cheese'],
+      asset: 'cheese',
+    },
+    {
+      tags: ['cheese_grated'],
+      asset: 'cheese_grated',
+    },
+    {
+      tags: ['tomato'],
+      asset: 'tomato',
+    },
+    {
+      tags: ['tomato_sliced'],
+      asset: 'tomato_sliced',
+    },
+    {
+      tags: ['tomato_blended'],
+      asset: 'tomato_blended',
+    },
+    {
+      tags: ['salami'],
+      asset: 'salami',
+    },
+    {
+      tags: ['salami_sliced'],
+      asset: 'salami_sliced',
+    },
+    {
+      tags: ['salami_sliced'],
+      asset: 'salami_sliced',
+    },
+  ];
+
   public tags: string[] = [];
 
   constructor(tags: string[]) {
@@ -36,7 +100,18 @@ export class Item {
     context.save();
     context.translate(p.x, p.y);
 
-    const image = ContentManager.get<HTMLImageElement>('error');
+    let imageName = 'error';
+    for (const { tags, asset } of Item.TAGS_TO_ASSETS) {
+      if (
+        tags.length === this.tags.length &&
+        tags.every(tag => this.tags.includes(tag))
+      ) {
+        imageName = asset;
+        break;
+      }
+    }
+
+    const image = ContentManager.get<HTMLImageElement>(imageName);
     if (image) {
       context.drawImage(image, 0, 0, s?.x ?? image.width, s?.y ?? image.height);
     }

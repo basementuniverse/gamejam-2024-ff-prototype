@@ -8,6 +8,8 @@ export class Button {
   private bounds: Bounds;
   private hover = false;
 
+  public active = false;
+
   constructor(
     public position: vec,
     public size: vec,
@@ -47,6 +49,19 @@ export class Button {
 
   public draw(context: CanvasRenderingContext2D) {
     context.save();
+
+    if (this.active) {
+      context.fillStyle = '#ffffaa33';
+      context.beginPath();
+      context.arc(
+        this.position.x + this.size.x / 2,
+        this.position.y + this.size.y / 2,
+        this.size.x * 0.75,
+        0,
+        Math.PI * 2
+      );
+      context.fill();
+    }
 
     if (this.image) {
       const image = ContentManager.get<HTMLImageElement>(this.image);
