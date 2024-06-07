@@ -22,7 +22,7 @@ export class IntroScene extends Scene {
   public initialise() {}
 
   public update(dt: number) {
-    if (InputManager.keyPressed()) {
+    if (InputManager.keyPressed() || InputManager.mousePressed()) {
       SceneManager.pop();
       SceneManager.push(new MenuScene());
     }

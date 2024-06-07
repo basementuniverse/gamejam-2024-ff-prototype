@@ -31,7 +31,7 @@ export class MenuScene extends Scene {
   }
 
   public update(dt: number) {
-    if (InputManager.keyPressed()) {
+    if (InputManager.keyPressed() || InputManager.mousePressed()) {
       if (this.music) {
         this.music.pause();
         this.music.currentTime = 0;
