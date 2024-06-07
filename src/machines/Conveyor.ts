@@ -133,11 +133,11 @@ export class Conveyor extends Machine {
       case 'down':
         switch (this.input) {
           case 'left':
-            image = ContentManager.get<HTMLImageElement>('conveyor-right-down');
+            image = ContentManager.get<HTMLImageElement>('conveyor-left-down');
             break;
 
           case 'right':
-            image = ContentManager.get<HTMLImageElement>('conveyor-left-down');
+            image = ContentManager.get<HTMLImageElement>('conveyor-right-down');
             break;
 
           case 'back':
